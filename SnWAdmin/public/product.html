@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/logosnw.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Records</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+
+</head>
+<body data-page="product">
+
+  <aside class="sidebar" role="navigation">
+    <div class="brand">
+      <img src="logosnw.jpg" alt="logo">
+      <p class="brand-name">Stitches N Wear</p>
+      <p class="brand-sub">Admin Inventory</p>
+    </div>
+
+    <nav>
+      <a class="nav-item" href="homepage.html" data-link="homepage"><i>🏠</i><span>Dashboard</span></a>
+      <a class="nav-item" href="product.html" data-link="product"><i>📦</i><span>Records</span></a>
+      <a class="nav-item" href="history.html" data-link="history"><i>📜</i><span>History</span></a>
+      <a class="nav-item" href="summary.html" data-link="summary"><i>📈</i><span>Summary</span></a>
+      <a class="nav-item" href="profile.html" data-link="profile"><i>👤</i><span>Profile</span></a>
+      <a id="logout" class="nav-item" href="#" data-link="logout" style="margin-top:12px; color:#9f1239"><i>🚪</i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="header-bar">
+      <div class="header-left">
+        <h1>📦 Product Records</h1>
+      </div>
+      <div class="header-right">
+        <div id="userCard" class="user-card">Welcome, <span id="userName">User</span></div>
+      </div>
+    </div>
+
+    <section class="card">
+      <form id="productEntry" style="display:block">
+        <table class="table" style="margin-bottom:14px">
+          <thead>
+            <tr>
+              <th>Date</th><th>Customer</th><th>TIN</th><th>Address</th><th>Reference #</th>
+              <th>Sales (Credit)</th><th>Output Tax</th><th>A/R Debit</th><th>A/R Credit</th>
+              <th>Cash</th><th>EWT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="date" id="date" style="width:100%"></td>
+              <td><input type="text" id="customer" placeholder="Customer name" style="width:100%"></td>
+              <td><input type="text" id="tin" placeholder="TIN" style="width:100%"></td>
+              <td><input type="text" id="address" placeholder="Address" style="width:100%"></td>
+              <td><input type="text" id="reference" placeholder="Ref #" style="width:100%"></td>
+              <td><input type="number" id="salesCredit" step="0.01" style="width:100%"></td>
+              <td><input type="number" id="outputTax" step="0.01" style="width:100%"></td>
+              <td><input type="number" id="arDebit" step="0.01" style="width:100%"></td>
+              <td><input type="number" id="arCredit" step="0.01" style="width:100%"></td>
+              <td><input type="number" id="cashDebit" step="0.01" style="width:100%"></td>
+              <td><input type="number" id="ewtCredit" step="0.01" style="width:100%"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="display:flex; gap:10px; justify-content:flex-end">
+          <button id="saveRowBtn" class="card" type="button" style="background:var(--accent); color:#fff; border:none; padding:10px 14px; border-radius:8px">+ Save Record</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card" style="margin-top:18px">
+      <h3 style="margin:0 0 12px 0; color:var(--accent)">Saved Records</h3>
+
+      <div style="display:flex; gap:10px; margin-bottom:12px; align-items:center">
+        <input id="searchInput" placeholder="Search by customer name..." style="padding:8px; width:260px; border-radius:8px; border:1px solid #e6e6f0">
+        <input id="searchReference" placeholder="Search by reference number..." style="padding:8px; width:200px; border-radius:8px; border:1px solid #e6e6f0">
+        <button id="searchBtn" style="padding:9px 12px; border-radius:8px; background:var(--accent); color:#fff; border:none">Search</button>
+      </div>
+
+      <table id="savedTable" class="table">
+        <thead>
+          <tr>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>TIN</th>
+        <th>Address</th>
+        <th>Reference #</th>
+        <th>Sales (Credit)</th>
+        <th>Output Tax</th>
+        <th>A/R Debit</th>
+        <th>A/R Credit</th>
+        <th>Cash</th>
+        <th>EWT</th>
+        <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="no-records"><td colspan="6" style="text-align:center; padding:18px; color:var(--muted)">No records found</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- keep your product.js and auth scripts -->
+  <script type="module" src="product.js"></script>
+  <script type="module" src="js/firebaseauth.js"></script>
+  <script type="module" src="js/auth.js"></script>
+
+  <script>
+    (function(){
+      const page = 'product';
+      document.querySelectorAll('.sidebar a.nav-item').forEach(a=>{
+        if(a.dataset.link === page) a.classList.add('active');
+      });
+    })();
+  </script>
+</body>
+</html>

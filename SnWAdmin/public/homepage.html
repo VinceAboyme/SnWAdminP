@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/logosnw.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homepage Dashboard</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Shared dashboard styles -->
+  <link rel="stylesheet" href="dashboard.css">
+
+  <!-- Keep your existing homepage logic -->
+  <script type="module" src="homepage.js"></script>
+  <script type="module" src="js/firebaseauth.js"></script>
+  <script type="module" src="js/auth.js"></script>
+</head>
+<body data-page="homepage">
+
+  <!-- Sidebar Page -->
+  <aside class="sidebar" role="navigation">
+    <div class="brand">
+      <img src="logosnw.jpg" alt="Stitches N Wear logo">
+      <p class="brand-name">Stitches N Wear</p>
+      <p class="brand-sub">Admin Inventory</p>
+    </div>
+
+    <nav>
+      <a class="nav-item" href="homepage.html" data-link="homepage"><i>🏠</i><span>Dashboard</span></a>
+      <a class="nav-item" href="product.html" data-link="product"><i>📦</i><span>Records</span></a>
+      <a class="nav-item" href="history.html" data-link="history"><i>📜</i><span>History</span></a>
+      <a class="nav-item" href="summary.html" data-link="summary"><i>📈</i><span>Summary</span></a>
+      <a class="nav-item" href="profile.html" data-link="profile"><i>👤</i><span>Profile</span></a>
+      <a id="logout" class="nav-item" href="#" data-link="logout" style="margin-top:12px; color:#9f1239"><i>🚪</i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <div class="header-bar">
+      <div class="header-left">
+        <h1>📊 Dashboard Overview</h1>
+      </div>
+      <div class="header-right">
+        <div id="userCard" class="user-card">Welcome, <span id="userName">User</span></div>
+      </div>
+    </div>
+
+    <section class="cards">
+      <div class="card">
+        <h3>Total Users</h3>
+        <p class="stat" id="totalUsers">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Total Products</h3>
+        <p class="stat" id="totalProducts">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Products This Week</h3>
+        <p class="stat" id="productsWeek">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Products This Month</h3>
+        <p class="stat" id="productsMonth">0</p>
+      </div>
+    </section>
+
+    <section class="chart-wrap">
+      <h3 style="margin:0 0 12px 0; color:var(--accent)">📈 Products Per Month</h3>
+      <div style="max-width:720px; margin:0 auto;">
+        <canvas id="productChart"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <!-- tiny script to set active nav item -->
+  <script>
+    (function(){
+      const page = document.body.getAttribute('data-page') || '';
+      document.querySelectorAll('.sidebar a.nav-item').forEach(a=>{
+        if(a.dataset.link === page) a.classList.add('active');
+      });
+    })();
+  </script>
+
+</body>
+</html>

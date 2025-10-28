@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" href="/logosnw.jpg" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profile</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body data-page="profile">
+
+  <aside class="sidebar" role="navigation">
+    <div class="brand">
+      <img src="logosnw.jpg" alt="logo">
+      <p class="brand-name">Stitches N Wear</p>
+      <p class="brand-sub">Admin Inventory</p>
+    </div>
+
+    <nav>
+      <a class="nav-item" href="homepage.html" data-link="homepage"><i>🏠</i><span>Dashboard</span></a>
+      <a class="nav-item" href="product.html" data-link="product"><i>📦</i><span>Records</span></a>
+      <a class="nav-item" href="history.html" data-link="history"><i>📜</i><span>History</span></a>
+      <a class="nav-item" href="summary.html" data-link="summary"><i>📈</i><span>Summary</span></a>
+      <a class="nav-item" href="profile.html" data-link="profile"><i>👤</i><span>Profile</span></a>
+      <a id="logout" class="nav-item" href="#" data-link="logout" style="margin-top:12px; color:#9f1239"><i>🚪</i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="header-bar">
+      <div class="header-left">
+        <h1>👤 Profile Settings</h1>
+      </div>
+      <div class="header-right">
+        <div id="userCard" class="user-card">Welcome, <span id="userName">User</span></div>
+      </div>
+    </div>
+
+    <section class="card" style="max-width:560px">
+      <div style="margin-bottom:12px">
+        <h3 style="margin:0 0 12px 0; color:var(--accent)">Edit Profile</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label style="font-weight:600;color:var(--muted)">Email (read-only)</label>
+          <input id="email" type="email" readonly style="padding:10px;border-radius:8px;border:1px solid #e9e7ff;background:#fbfbff">
+          <div style="display:flex;gap:10px">
+            <input id="firstName" placeholder="First Name" style="flex:1;padding:10px;border-radius:8px;border:1px solid #e9e7ff">
+            <input id="lastName" placeholder="Last Name" style="flex:1;padding:10px;border-radius:8px;border:1px solid #e9e7ff">
+          </div>
+          <button id="updateProfileBtn" style="background:var(--accent);color:#fff;padding:10px;border:none;border-radius:8px;margin-top:6px">Update Profile</button>
+          <div id="profileMessage" class="message" style="display:none"></div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="margin:14px 0 12px 0; color:var(--accent)">Change Password</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <input id="currentPassword" type="password" placeholder="Current password" style="padding:10px;border-radius:8px;border:1px solid #e9e7ff">
+          <input id="newPassword" type="password" placeholder="New password (min 6 chars)" style="padding:10px;border-radius:8px;border:1px solid #e9e7ff">
+          <button id="changePasswordBtn" style="background:#6b7280;color:#fff;padding:10px;border:none;border-radius:8px">Change Password</button>
+          <div id="passwordMessage" class="message" style="display:none"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="profile.js"></script>
+  <script type="module" src="js/firebaseauth.js"></script>
+  <script type="module" src="js/auth.js"></script>
+
+  <script>
+    (function(){
+      const page = 'profile';
+      document.querySelectorAll('.sidebar a.nav-item').forEach(a=>{
+        if(a.dataset.link === page) a.classList.add('active');
+      });
+    })();
+  </script>
+
+</body>
+</html>

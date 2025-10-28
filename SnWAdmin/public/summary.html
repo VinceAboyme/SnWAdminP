@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/logosnw.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monthly Summary</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+  <style>
+    /* Custom Styles for Clickable Rows and Collapsible Details */
+    .summary-container {
+        width: 100%;
+    }
+    .summary-row {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .summary-row:hover {
+        background-color: #f0f0f0;
+    }
+    .details-section {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #f9f9f9;
+        border-left: 5px solid var(--accent);
+        margin-bottom: 15px;
+    }
+    .details-section.active {
+        /* Set a large enough max-height to handle content */
+        max-height: 1000px; 
+        transition: max-height 0.5s ease-in;
+        padding: 10px 0;
+    }
+    .details-content {
+        padding: 0 15px 10px 15px;
+    }
+    .details-content h4 {
+        margin-top: 5px;
+        color: var(--primary-color);
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+    .details-table {
+        min-width: 600px; /* Ensure table doesn't shrink too much */
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9em;
+    }
+    .details-table th, .details-table td {
+        border: 1px solid #eee;
+        padding: 6px 10px;
+        text-align: left;
+    }
+    .details-table th {
+        background-color: #e3e3e3;
+        font-weight: 600;
+    }
+  </style>
+</head>
+<body data-page="summary">
+
+  <aside class="sidebar" role="navigation">
+    <div class="brand">
+      <img src="logosnw.jpg" alt="logo">
+      <p class="brand-name">Stitches N Wear</p>
+      <p class="brand-sub">Admin Inventory</p>
+    </div>
+
+    <nav>
+      <a class="nav-item" href="homepage.html" data-link="homepage"><i>🏠</i><span>Dashboard</span></a>
+      <a class="nav-item" href="product.html" data-link="product"><i>📦</i><span>Records</span></a>
+      <a class="nav-item" href="history.html" data-link="history"><i>📜</i><span>History</span></a>
+      <a class="nav-item" href="summary.html" data-link="summary"><i>📈</i><span>Summary</span></a>
+      <a class="nav-item" href="profile.html" data-link="profile"><i>👤</i><span>Profile</span></a>
+      <a id="logout" class="nav-item" href="#" data-link="logout" style="margin-top:12px; color:#9f1239"><i>🚪</i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="header-bar">
+      <div class="header-left">
+        <h1>📊 Monthly Summary Report</h1>
+      </div>
+      <div class="header-right">
+        <div id="userCard" class="user-card">Welcome, <span id="userName">User</span></div>
+      </div>
+    </div>
+
+    <section class="card">
+      <h3 style="margin:0 0 12px 0; color:var(--accent)">Summary Totals (Click a row for details)</h3>
+      <table class="table" style="max-width:820px; width:100%;">
+        <tbody>
+          <tr class="summary-row" data-type="salesCredit" data-label="Total Sales (Credit)">
+            <th>1️⃣ Total Sales (Credit)</th>
+            <td id="totalSales">₱0.00</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:0;">
+              <div id="detailsSalesCredit" class="details-section">
+                <div class="details-content"></div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="summary-row" data-type="ar" data-label="A/R Balance (End of Month)">
+            <th>2️⃣ A/R Balance (End of Month)</th>
+            <td id="totalAR">₱0.00</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:0;">
+              <div id="detailsAR" class="details-section">
+                <div class="details-content"></div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="summary-row" data-type="cashDebit" data-label="Payment Summary (Cash)">
+            <th>3️⃣ Payment Summary (Cash)</th>
+            <td id="totalCash">₱0.00</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:0;">
+              <div id="detailsCashDebit" class="details-section">
+                <div class="details-content"></div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="summary-row" data-type="outputTax" data-label="Output Tax Total">
+            <th>4️⃣ Output Tax Total</th>
+            <td id="totalTax">₱0.00</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:0;">
+              <div id="detailsOutputTax" class="details-section">
+                <div class="details-content"></div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="summary-row" data-type="ewtCredit" data-label="Total EWT">
+            <th>5️⃣ Total EWT</th>
+            <td id="totalEWT">₱0.00</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:0;">
+              <div id="detailsEWTCredit" class="details-section">
+                <div class="details-content"></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script type="module" src="summary.js"></script>
+  <script type="module" src="js/firebaseauth.js"></script>
+  <script type="module" src="js/auth.js"></script>
+
+  <script>
+    (function(){
+      const page = 'summary';
+      document.querySelectorAll('.sidebar a.nav-item').forEach(a=>{
+        if(a.dataset.link === page) a.classList.add('active');
+      });
+    })();
+  </script>
+</body>
+</html>

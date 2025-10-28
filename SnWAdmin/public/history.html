@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/logosnw.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>History Logs</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body data-page="history">
+
+  <aside class="sidebar" role="navigation">
+    <div class="brand">
+      <img src="logosnw.jpg" alt="logo">
+      <p class="brand-name">Stitches N Wear</p>
+      <p class="brand-sub">Admin Inventory</p>
+    </div>
+
+    <nav>
+      <a class="nav-item" href="homepage.html" data-link="homepage"><i>🏠</i><span>Dashboard</span></a>
+      <a class="nav-item" href="product.html" data-link="product"><i>📦</i><span>Records</span></a>
+      <a class="nav-item" href="history.html" data-link="history"><i>📜</i><span>History</span></a>
+      <a class="nav-item" href="summary.html" data-link="summary"><i>📈</i><span>Summary</span></a>
+      <a class="nav-item" href="profile.html" data-link="profile"><i>👤</i><span>Profile</span></a>
+      <a id="logout" class="nav-item" href="#" data-link="logout" style="margin-top:12px; color:#9f1239"><i>🚪</i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="header-bar">
+      <div class="header-left">
+        <h1>📂 History Logs</h1>
+      </div>
+      <div class="header-right">
+        <div id="userCard" class="user-card">Welcome, <span id="userName">User</span></div>
+      </div>
+    </div>
+
+    <section class="card">
+      <table id="historyTable" class="table">
+        <thead>
+          <tr>
+            <th style="width:160px">Date</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="historyTableBody">
+          <tr><td colspan="4" style="text-align:center; padding:18px; color:var(--muted)">Loading logs...</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script type="module" src="history.js"></script>
+  <script type="module" src="js/firebaseauth.js"></script>
+  <script type="module" src="js/auth.js"></script>
+
+  <script>
+    (function(){
+      const page = 'history';
+      document.querySelectorAll('.sidebar a.nav-item').forEach(a=>{
+        if(a.dataset.link === page) a.classList.add('active');
+      });
+    })();
+  </script>
+</body>
+</html>

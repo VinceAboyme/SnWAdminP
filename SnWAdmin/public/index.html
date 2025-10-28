@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/logosnw.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Firebase Authentication -->
+  <script type="module" src="firebaseauth.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 300px;
+      margin: 40px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .logo-section img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+
+    .logo-section h2 {
+      font-size: 19px;
+      font-weight: 600;
+      color: #3f3d56;
+      margin: 0;
+    }
+
+    .logo-section p {
+      font-size: 13px;
+      color: #6b6b6b;
+      margin-top: 4px;
+    }
+
+    .input-group {
+      margin-bottom: 12px;
+      position: relative;
+      text-align: center;
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      color: #666;
+      font-size: 13px;
+    }
+
+    .input-group input {
+      width: 85%;
+      padding: 6px 8px 6px 28px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+      font-size: 13px;
+    }
+
+    .btn {
+      width: 85%;
+      display: block;
+      margin: 0 auto;
+      padding: 8px;
+      background: #3f3d56;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .btn:hover {
+      background: #2f2d46;
+    }
+
+    .recover {
+      text-align: right;
+      margin-right: 23px;
+      margin-bottom: 8px;
+    }
+
+    .recover a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .recover a:hover {
+      text-decoration: underline;
+    }
+
+    .messageDiv {
+      text-align: center;
+      padding: 6px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      font-size: 13px;
+      display: none;
+      color: rgb(14, 13, 13);
+    }
+
+    .success { background-color: #28a745; }
+    .error { background-color: #dc3545; }
+    .warning { background-color: #ffc107; color: black; }
+
+    .links {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .links button {
+      background: none;
+      border: none;
+      color: #007bff;
+      cursor: pointer;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIGN IN -->
+  <div class="container" id="signIn">
+    <div class="logo-section">
+      <img src="logosnw.jpg" alt="Logo">
+      <h2>Stitches N Wear</h2>
+      <p>Admin Inventory Management</p>
+    </div>
+
+    <h1 class="form-title" style="font-size:17px; text-align:center;">Admin Sign In</h1>
+    <form id="loginForm">
+      <div id="signInMessage" class="messageDiv"></div>
+
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" placeholder="Email" required />
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+
+      <p class="recover"><a href="#" id="recoverLink">Recover Password</a></p>
+      <button type="submit" class="btn" id="submitSignIn">Sign In</button>
+    </form>
+  </div>
+
+  <!-- PASSWORD RECOVERY -->
+  <div class="container" id="recoverContainer" style="display:none;">
+    <h1 class="form-title" style="font-size:17px;text-align:center;">Recover Password</h1>
+    <form>
+      <div id="recoverMessage" class="messageDiv"></div>
+
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="recoverEmail" placeholder="Enter your email" required />
+      </div>
+
+      <button type="button" class="btn" id="recoverBtn">Send Reset Link</button>
+    </form>
+
+    <div class="links">
+      <button id="backToSignIn">Back to Sign In</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHvQp4S5kIa-pMlts3niATdLoRggnVl6E",
+      authDomain: "snwadmin-ca34c.firebaseapp.com",
+      projectId: "snwadmin-ca34c",
+      storageBucket: "snwadmin-ca34c.appspot.com",
+      messagingSenderId: "155112691160",
+      appId: "1:155112691160:web:b55a8dd14c5b3bfa8ecead"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    function showMessage(message, divId, type = "success") {
+      const messageDiv = document.getElementById(divId);
+      if (!messageDiv) return;
+      messageDiv.className = `messageDiv ${type}`;
+      messageDiv.style.display = "block";
+      messageDiv.innerText = message;
+      setTimeout(() => {
+        messageDiv.style.display = "none";
+      }, 4000);
+    }
+
+    document.getElementById("recoverLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("signIn").style.display = "none";
+      document.getElementById("recoverContainer").style.display = "block";
+    });
+
+    document.getElementById("backToSignIn").addEventListener("click", () => {
+      document.getElementById("recoverContainer").style.display = "none";
+      document.getElementById("signIn").style.display = "block";
+    });
+
+    // Sign In Logic
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        showMessage("Login successful! Redirecting...", "signInMessage", "success");
+        setTimeout(() => window.location.href = "homepage.html", 1500);
+      } catch (error) {
+        console.error("Login Error:", error);
+        showMessage("Invalid email or password.", "signInMessage", "error");
+      }
+    });
+
+    // Recover Password
+    document.getElementById("recoverBtn").addEventListener("click", async () => {
+      const email = document.getElementById("recoverEmail").value.trim();
+      if (!email) {
+        showMessage("Please enter your email", "recoverMessage", "warning");
+        return;
+      }
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showMessage("Password reset link sent! Check your email.", "recoverMessage", "success");
+      } catch (error) {
+        showMessage("Error sending reset link", "recoverMessage", "error");
+      }
+    });
+  </script>
+</body>
+</html>
+
